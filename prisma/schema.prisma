@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CandidateProfile {
+  id                String   @id @default(uuid())
+  name              String
+  email             String   @unique
+  title             String
+  summary           String   @db.Text
+  location          String
+  yearsOfExperience Int
+  githubUrl         String?
+  linkedinUrl       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Skill {
+  id                String @id @default(uuid())
+  name              String @unique
+  category          String
+  proficiency       String
+  yearsOfExperience Int
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  description  String   @db.Text
+  technologies String[]
+  features     String[]
+  relevance    String
+  githubUrl    String?
+  liveUrl      String?
+  createdAt    DateTime @default(now())
+}
+
+model Experience {
+  id           String    @id @default(uuid())
+  company      String
+  role         String
+  description  String    @db.Text
+  technologies String[]
+  startDate    DateTime
+  endDate      DateTime?
+}
+
+model JobApplication {
+  id               String   @id @default(uuid())
+  jobTitle         String
+  company          String
+  jobDescription   String   @db.Text
+  matchScore       Int
+  recommendation   String
+  summary          String   @db.Text
+  strengths        String[]
+  gaps             String[]
+  matchedReqs      Json
+  selectedProjects Json
+  coverLetter      String   @db.Text
+  createdAt        DateTime @default(now())
+}
